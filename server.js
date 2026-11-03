@@ -77,6 +77,7 @@ app.post('/api/redeem-truemoney', async function (req, res) {
     }
 
     // อ่านยอดจริงจากผลลัพธ์ ไม่เชื่อค่าจากหน้าเว็บ
+        console.log('redeem ok response:', JSON.stringify(j).slice(0, 800));
     const amount = parseFloat(j.data && j.data.my_ticket && j.data.my_ticket.amount_baht);
     if (!amount || amount <= 0) {
       return res.status(500).json({ error: 'อ่านยอดเงินไม่ได้ กรุณาติดต่อแอดมิน (ซอง ' + code + ')' });
