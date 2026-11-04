@@ -63,7 +63,10 @@ app.post('/api/redeem-truemoney', async function (req, res) {
       headers: { 'Content-Type': 'application/json', 'User-Agent': 'Mozilla/5.0' },
       body: JSON.stringify({ mobile: process.env.TW_PHONE, voucher_hash: code })
     });
-    const j = await r.json().catch(function () { return {}; });
+    const raw = await r.text();
+let j = {};
+try { j = JSON.parse(raw); } catch (e) {}
+console.log('TW http', r.status, raw.slice(0, 500));
 
     if (!j.status || j.status.code !== 'SUCCESS') {
       await supabase.from('tw_vouchers').delete().eq('voucher_code', code); // คืนสิทธิ์ให้ลองใหม่
